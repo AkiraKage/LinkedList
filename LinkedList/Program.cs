@@ -10,7 +10,10 @@ namespace LinkedList
     {
         static void Main(string[] args)
         {
-
+            LinkedList<int> test = new LinkedList<int>();
+            test.AddLast(3);
+            test.AddFirst(4);
+            Console.WriteLine(test.Count);
         }
     }
 }
