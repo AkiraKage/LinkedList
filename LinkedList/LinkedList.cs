@@ -14,12 +14,7 @@ namespace LinkedList
         public LinkedListNode<T> Head { get; set; }
         public LinkedListNode<T> Last { get; set; }
 
-        public LinkedList()
-        {
-            Count = 0;
-            Head = new LinkedListNode<T>(null) { Next = null };
-            Last = new LinkedListNode<T>(null) { Next = null };
-        }
+        public LinkedList(){}
 
         public void AddFirst(T value)
         {
@@ -45,7 +40,7 @@ namespace LinkedList
 
     public class LinkedListNode<T>
     {
-        public T? Value { get; set; }
+        public T Value { get; set; }
         public LinkedListNode<T> Next { get; set; }
 
         public LinkedListNode(T value)
