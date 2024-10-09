@@ -81,6 +81,49 @@ namespace LinkedList
             LinkedListNode<T> element = new LinkedListNode<T>(value);
             AddBefore(targetNode, element);
         }
+
+        public void Clear()
+        {
+            Head = null;
+            Last = null;
+            Count = 0;
+        }
+
+        public bool Contains(T target)
+        {
+            LinkedListNode<T> currentNode = Head;
+            while(currentNode != null)
+            {
+                if(currentNode.Value.Equals(target)) return true; // "==" and "!=" operators don't work with T (generic type)
+                currentNode = currentNode.Next;
+            }
+            return false;
+        }
+
+        public LinkedListNode<T> Find(T target)
+        {
+            LinkedListNode<T> currentNode = Head;
+            while(currentNode != null)
+            {
+                if (currentNode.Value.Equals(target)) return currentNode;
+                currentNode = currentNode.Next;
+            }
+            return null;
+        }
+
+        public LinkedListNode<T> FindLast(T target)
+        {
+            LinkedListNode<T> currentNode = Head;
+            LinkedListNode<T> foundNode = null;
+
+            while (currentNode != null)
+            {
+                if (currentNode.Value.Equals(target)) foundNode = currentNode;
+                currentNode = currentNode.Next;
+            }
+
+            return foundNode;
+        }
     }
 
     public class LinkedListNode<T>
