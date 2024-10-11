@@ -4,7 +4,7 @@ class Program
 {
     public static void Main(string[] args)
     {
-        CLinkedList<int> list = new CLinkedList<int>();
+        LinkedList<int> list = new LinkedList<int>();
 
         addFirstP();
         void addFirstP()

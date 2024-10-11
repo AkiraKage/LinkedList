@@ -14,33 +14,30 @@ public class LinkedListNode<T>
     }
 }
 
-public class CLinkedList<T>
+public class LinkedList<T>
 {
-    private LinkedListNode<T> head;
-    private LinkedListNode<T> tail;
+    private LinkedListNode<T> Head;
+    private LinkedListNode<T> Last;
     public int Count { get; private set; }
 
-    public LinkedListNode<T> First => head;
-    public LinkedListNode<T> Last => tail;
-
-    public CLinkedList()
+    public LinkedList()
     {
-        head = null;
-        tail = null;
+        Head = null;
+        Last = null;
         Count = 0;
     }
 
     public void AddFirst(LinkedListNode<T> node)
     {
-        if (head == null)
+        if (Head == null)
         {
-            head = tail = node;
+            Head = Last = node;
         }
         else
         {
-            node.Next = head;
-            head.Previous = node;
-            head = node;
+            node.Next = Head;
+            Head.Previous = node;
+            Head = node;
         }
         Count++;
     }
@@ -52,15 +49,15 @@ public class CLinkedList<T>
 
     public void AddLast(LinkedListNode<T> node)
     {
-        if (tail == null)
+        if (Last == null)
         {
-            head = tail = node;
+            Head = Last = node;
         }
         else
         {
-            node.Previous = tail;
-            tail.Next = node;
-            tail = node;
+            node.Previous = Last;
+            Last.Next = node;
+            Last = node;
         }
         Count++;
     }
@@ -83,9 +80,9 @@ public class CLinkedList<T>
         }
         existingNode.Next = newNode;
 
-        if (existingNode == tail)
+        if (existingNode == Last)
         {
-            tail = newNode;
+            Last = newNode;
         }
         Count++;
     }
@@ -108,9 +105,9 @@ public class CLinkedList<T>
         }
         existingNode.Previous = newNode;
 
-        if (existingNode == head)
+        if (existingNode == Head)
         {
-            head = newNode;
+            Head = newNode;
         }
         Count++;
     }
@@ -127,7 +124,7 @@ public class CLinkedList<T>
 
     public LinkedListNode<T> Find(T value)
     {
-        LinkedListNode<T> current = head;
+        LinkedListNode<T> current = Head;
         while (current != null)
         {
             if (current.Value.Equals(value))
@@ -139,7 +136,7 @@ public class CLinkedList<T>
 
     public LinkedListNode<T> FindLast(T value)
     {
-        LinkedListNode<T> current = tail;
+        LinkedListNode<T> current = Last;
         while (current != null)
         {
             if (current.Value.Equals(value))
@@ -160,7 +157,7 @@ public class CLinkedList<T>
         }
         else
         {
-            head = node.Next;
+            Head = node.Next;
         }
 
         if (node.Next != null)
@@ -169,7 +166,7 @@ public class CLinkedList<T>
         }
         else
         {
-            tail = node.Previous;
+            Last = node.Previous;
         }
         Count--;
     }
@@ -187,32 +184,32 @@ public class CLinkedList<T>
 
     public void RemoveFirst()
     {
-        if (head == null)
+        if (Head == null)
         {
             Console.WriteLine("lista vuota");
         }
 
-        Remove(head);
+        Remove(Head);
     }
 
     public void RemoveLast()
     {
-        if (tail == null)
+        if (Last == null)
         {
             Console.WriteLine("lista vuota");
         }
-        Remove(tail);
+        Remove(Last);
     }
 
     public void Clear()
     {
-        head = tail = null;
+        Head = Last = null;
         Count = 0;
     }
 
     public override string ToString()
     {
-        LinkedListNode<T> current = head;
+        LinkedListNode<T> current = Head;
         string result = "";
         while (current != null)
         {
