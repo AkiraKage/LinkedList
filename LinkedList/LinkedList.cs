@@ -20,12 +20,7 @@ public class LinkedList<T>
     private LinkedListNode<T> Last;
     public int Count { get; private set; }
 
-    public LinkedList()
-    {
-        Head = null;
-        Last = null;
-        Count = 0;
-    }
+    public LinkedList(){}
 
     public void AddFirst(LinkedListNode<T> node)
     {
@@ -70,20 +65,17 @@ public class LinkedList<T>
     public void AddAfter(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
     {
         if (existingNode == null || newNode == null)
-            throw new ArgumentNullException();
+        {
+            Console.WriteLine("Presenti nodi non esistenti nel comando, ricontrollare");
+            return;
+        }
 
         newNode.Next = existingNode.Next;
         newNode.Previous = existingNode;
-        if (existingNode.Next != null)
-        {
-            existingNode.Next.Previous = newNode;
-        }
+        if (existingNode.Next != null) existingNode.Next.Previous = newNode;
         existingNode.Next = newNode;
 
-        if (existingNode == Last)
-        {
-            Last = newNode;
-        }
+        if (existingNode == Last) Last = newNode;
         Count++;
     }
 
@@ -95,20 +87,17 @@ public class LinkedList<T>
     public void AddBefore(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
     {
         if (existingNode == null || newNode == null)
-            throw new ArgumentNullException();
+        {
+            Console.WriteLine("Presenti nodi non esistenti nel comando, ricontrollare");
+            return;
+        }
 
         newNode.Previous = existingNode.Previous;
         newNode.Next = existingNode;
-        if (existingNode.Previous != null)
-        {
-            existingNode.Previous.Next = newNode;
-        }
+        if (existingNode.Previous != null) existingNode.Previous.Next = newNode;
         existingNode.Previous = newNode;
 
-        if (existingNode == Head)
-        {
-            Head = newNode;
-        }
+        if (existingNode == Head) Head = newNode;
         Count++;
     }
 
@@ -149,37 +138,27 @@ public class LinkedList<T>
     public void Remove(LinkedListNode<T> node)
     {
         if (node == null)
-            throw new ArgumentNullException();
-
-        if (node.Previous != null)
         {
-            node.Previous.Next = node.Next;
-        }
-        else
-        {
-            Head = node.Next;
+            Console.WriteLine("Nodo nullo, ricontrollare");
+            return;
         }
 
-        if (node.Next != null)
-        {
-            node.Next.Previous = node.Previous;
-        }
-        else
-        {
-            Last = node.Previous;
-        }
+        if (node.Previous != null) node.Previous.Next = node.Next;
+        else Head = node.Next;
+
+        if (node.Next != null) node.Next.Previous = node.Previous;
+        else Last = node.Previous;
         Count--;
     }
 
-    public bool Remove(T value)
+    public void Remove(T value)
     {
         LinkedListNode<T> node = Find(value);
         if (node != null)
         {
             Remove(node);
-            return true;
+            Count--;
         }
-        return false;
     }
 
     public void RemoveFirst()
@@ -187,6 +166,7 @@ public class LinkedList<T>
         if (Head == null)
         {
             Console.WriteLine("lista vuota");
+            return;
         }
 
         Remove(Head);
@@ -197,6 +177,7 @@ public class LinkedList<T>
         if (Last == null)
         {
             Console.WriteLine("lista vuota");
+            return;
         }
         Remove(Last);
     }
