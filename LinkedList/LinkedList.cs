@@ -1,139 +1,224 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace LinkedList
+public class LinkedListNode<T>
 {
-    public class LinkedList<T>
+    public T Value { get; set; }
+    public LinkedListNode<T> Next { get; set; }
+    public LinkedListNode<T> Previous { get; set; }
+
+    public LinkedListNode(T value)
     {
-        public int Count;
-        public LinkedListNode<T> Head;
-        public LinkedListNode<T> Last;
+        Value = value;
+        Next = null;
+        Previous = null;
+    }
+}
 
-        public LinkedList(){}
+public class CLinkedList<T>
+{
+    private LinkedListNode<T> head;
+    private LinkedListNode<T> tail;
+    public int Count { get; private set; }
 
-        public void AddFirst(LinkedListNode<T> node)
-        {
-            if(Head == null) Last = node;
-            node.Next = Head;
-            Head = node;
-            Count++;
-        }
+    public LinkedListNode<T> First => head;
+    public LinkedListNode<T> Last => tail;
 
-        public void AddFirst(T value)
-        {
-            LinkedListNode<T> element = new LinkedListNode<T>(value) { Next = Head };
-            AddFirst(element);
-        }
-
-        public void AddLast(LinkedListNode<T> node)
-        {
-            if (Last == null)
-            {
-                AddFirst(node);
-                return;
-            }
-            Last.Next = node;
-            Last = node;
-            Count++;
-        }
-
-        public void AddLast(T value)
-        {
-            LinkedListNode<T> element = new LinkedListNode<T>(value);
-            AddLast(element);
-        }
-
-
-        public void AddAfter(LinkedListNode<T> targetNode, LinkedListNode<T> newNode)
-        {
-            newNode.Next = targetNode.Next;
-            targetNode.Next = newNode;
-            if (targetNode == Last) Last = newNode;
-            Count++;
-        }
-
-        public void AddAfter(LinkedListNode<T> targetNode, T value)
-        {
-            LinkedListNode<T> element = new LinkedListNode<T>(value) { Next = targetNode.Next };
-            AddAfter(targetNode, element);
-        }
-
-        public void AddBefore(LinkedListNode<T> targetNode, LinkedListNode<T> newNode)
-        {
-            if(Head == null || targetNode == Head)
-            {
-                AddFirst(newNode);
-                return;
-            }
-            LinkedListNode<T> currentNode = Head.Next;
-            while(currentNode.Next != targetNode && currentNode.Next != null) currentNode = currentNode.Next;
-            if(currentNode.Next == null)
-            {
-                Console.WriteLine("Nodo non trovato");
-                return;
-            }
-            AddAfter(currentNode, newNode);
-        }
-
-        public void AddBefore(LinkedListNode<T> targetNode, T value)
-        {
-            LinkedListNode<T> element = new LinkedListNode<T>(value);
-            AddBefore(targetNode, element);
-        }
-
-        public void Clear()
-        {
-            Head = null;
-            Last = null;
-            Count = 0;
-        }
-
-        public bool Contains(T target)
-        {
-            LinkedListNode<T> currentNode = Head;
-            while(currentNode != null)
-            {
-                if(currentNode.Value.Equals(target)) return true; // "==" and "!=" operators don't work with T (generic type)
-                currentNode = currentNode.Next;
-            }
-            return false;
-        }
-
-        public LinkedListNode<T> Find(T target)
-        {
-            LinkedListNode<T> currentNode = Head;
-            while(currentNode != null)
-            {
-                if (currentNode.Value.Equals(target)) return currentNode;
-                currentNode = currentNode.Next;
-            }
-            return null;
-        }
-
-        public LinkedListNode<T> FindLast(T target)
-        {
-            LinkedListNode<T> currentNode = Head;
-            LinkedListNode<T> foundNode = null;
-
-            while (currentNode != null)
-            {
-                if (currentNode.Value.Equals(target)) foundNode = currentNode;
-                currentNode = currentNode.Next;
-            }
-
-            return foundNode;
-        }
+    public CLinkedList()
+    {
+        head = null;
+        tail = null;
+        Count = 0;
     }
 
-    public class LinkedListNode<T>
+    public void AddFirst(LinkedListNode<T> node)
     {
-        public T Value { get; set; }
-        public LinkedListNode<T> Next;
-
-        public LinkedListNode(T value)
+        if (head == null)
         {
-            Value = value;
+            head = tail = node;
         }
+        else
+        {
+            node.Next = head;
+            head.Previous = node;
+            head = node;
+        }
+        Count++;
+    }
+
+    public void AddFirst(T value)
+    {
+        AddFirst(new LinkedListNode<T>(value));
+    }
+
+    public void AddLast(LinkedListNode<T> node)
+    {
+        if (tail == null)
+        {
+            head = tail = node;
+        }
+        else
+        {
+            node.Previous = tail;
+            tail.Next = node;
+            tail = node;
+        }
+        Count++;
+    }
+
+    public void AddLast(T value)
+    {
+        AddLast(new LinkedListNode<T>(value));
+    }
+
+    public void AddAfter(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
+    {
+        if (existingNode == null || newNode == null)
+            throw new ArgumentNullException();
+
+        newNode.Next = existingNode.Next;
+        newNode.Previous = existingNode;
+        if (existingNode.Next != null)
+        {
+            existingNode.Next.Previous = newNode;
+        }
+        existingNode.Next = newNode;
+
+        if (existingNode == tail)
+        {
+            tail = newNode;
+        }
+        Count++;
+    }
+
+    public void AddAfter(LinkedListNode<T> existingNode, T value)
+    {
+        AddAfter(existingNode, new LinkedListNode<T>(value));
+    }
+
+    public void AddBefore(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
+    {
+        if (existingNode == null || newNode == null)
+            throw new ArgumentNullException();
+
+        newNode.Previous = existingNode.Previous;
+        newNode.Next = existingNode;
+        if (existingNode.Previous != null)
+        {
+            existingNode.Previous.Next = newNode;
+        }
+        existingNode.Previous = newNode;
+
+        if (existingNode == head)
+        {
+            head = newNode;
+        }
+        Count++;
+    }
+
+    public void AddBefore(LinkedListNode<T> existingNode, T value)
+    {
+        AddBefore(existingNode, new LinkedListNode<T>(value));
+    }
+
+    public bool Contains(T value)
+    {
+        return Find(value) != null;
+    }
+
+    public LinkedListNode<T> Find(T value)
+    {
+        LinkedListNode<T> current = head;
+        while (current != null)
+        {
+            if (current.Value.Equals(value))
+                return current;
+            current = current.Next;
+        }
+        return null;
+    }
+
+    public LinkedListNode<T> FindLast(T value)
+    {
+        LinkedListNode<T> current = tail;
+        while (current != null)
+        {
+            if (current.Value.Equals(value))
+                return current;
+            current = current.Previous;
+        }
+        return null;
+    }
+
+    public void Remove(LinkedListNode<T> node)
+    {
+        if (node == null)
+            throw new ArgumentNullException();
+
+        if (node.Previous != null)
+        {
+            node.Previous.Next = node.Next;
+        }
+        else
+        {
+            head = node.Next;
+        }
+
+        if (node.Next != null)
+        {
+            node.Next.Previous = node.Previous;
+        }
+        else
+        {
+            tail = node.Previous;
+        }
+        Count--;
+    }
+
+    public bool Remove(T value)
+    {
+        LinkedListNode<T> node = Find(value);
+        if (node != null)
+        {
+            Remove(node);
+            return true;
+        }
+        return false;
+    }
+
+    public void RemoveFirst()
+    {
+        if (head == null)
+        {
+            Console.WriteLine("lista vuota");
+        }
+
+        Remove(head);
+    }
+
+    public void RemoveLast()
+    {
+        if (tail == null)
+        {
+            Console.WriteLine("lista vuota");
+        }
+        Remove(tail);
+    }
+
+    public void Clear()
+    {
+        head = tail = null;
+        Count = 0;
+    }
+
+    public override string ToString()
+    {
+        LinkedListNode<T> current = head;
+        string result = "";
+        while (current != null)
+        {
+            result += current.Value + " -> ";
+            current = current.Next;
+        }
+        return result + "null";
     }
 }
