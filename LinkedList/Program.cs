@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        CLinkedList<int> list = new CLinkedList<int>();
+        LinkedList<int> list = new LinkedList<int>();
 
         //addFirst (risultato: 20-10)
         list.AddFirst(10);
