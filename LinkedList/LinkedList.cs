@@ -157,8 +157,9 @@ public class LinkedList<T>
         if (node != null)
         {
             Remove(node);
-            Count--;
+            return;
         }
+        Count--;
     }
 
     public void RemoveFirst()
