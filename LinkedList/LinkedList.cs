@@ -19,9 +19,7 @@ public class LinkedList<T>
     private LinkedListNode<T> Head;
     private LinkedListNode<T> Last;
     public int Count { get; private set; }
-
-    public LinkedList(){}
-
+    
     public void AddFirst(LinkedListNode<T> node)
     {
         if (Head == null)
@@ -37,10 +35,7 @@ public class LinkedList<T>
         Count++;
     }
 
-    public void AddFirst(T value)
-    {
-        AddFirst(new LinkedListNode<T>(value));
-    }
+    public void AddFirst(T value) => AddFirst(new LinkedListNode<T>(value));
 
     public void AddLast(LinkedListNode<T> node)
     {
@@ -57,10 +52,7 @@ public class LinkedList<T>
         Count++;
     }
 
-    public void AddLast(T value)
-    {
-        AddLast(new LinkedListNode<T>(value));
-    }
+    public void AddLast(T value) => AddLast(new LinkedListNode<T>(value));
 
     public void AddAfter(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
     {
@@ -79,10 +71,8 @@ public class LinkedList<T>
         Count++;
     }
 
-    public void AddAfter(LinkedListNode<T> existingNode, T value)
-    {
-        AddAfter(existingNode, new LinkedListNode<T>(value));
-    }
+    public void AddAfter(LinkedListNode<T> existingNode, T value) 
+        => AddAfter(existingNode, new LinkedListNode<T>(value));
 
     public void AddBefore(LinkedListNode<T> existingNode, LinkedListNode<T> newNode)
     {
@@ -101,10 +91,8 @@ public class LinkedList<T>
         Count++;
     }
 
-    public void AddBefore(LinkedListNode<T> existingNode, T value)
-    {
-        AddBefore(existingNode, new LinkedListNode<T>(value));
-    }
+    public void AddBefore(LinkedListNode<T> existingNode, T value) 
+        => AddBefore(existingNode, new LinkedListNode<T>(value));
 
     public bool Contains(T value)
     {
